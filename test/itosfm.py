@@ -5,6 +5,7 @@ import theano.tensor as T
 
 from keras import backend as K
 from keras import activations, initializations, regularizers
+# from keras import activations, initializers, regularizers
 from keras.engine import Layer, InputSpec
 from keras.layers.recurrent import Recurrent
 
@@ -19,9 +20,15 @@ class ITOSFM(Recurrent):
         self.output_dim = output_dim
         self.freq_dim = freq_dim
         self.hidden_dim = hidden_dim
+        #'''
         self.init = initializations.get(init)
         self.inner_init = initializations.get(inner_init)
         self.forget_bias_init = initializations.get(forget_bias_init)
+        '''
+        self.init = initializers.get(init)
+        self.inner_init = initializers.get(inner_init)
+        self.forget_bias_init = initializers.get(forget_bias_init)
+        #'''
         self.activation = activations.get(activation)
         self.inner_activation = activations.get(inner_activation)
         self.W_regularizer = regularizers.get(W_regularizer)

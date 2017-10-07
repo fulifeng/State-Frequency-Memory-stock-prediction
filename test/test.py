@@ -62,8 +62,14 @@ if __name__=='__main__':
     #predition
     print '> Predicting... '
     predicted = model.predict(X_test)
+    print 'predicted result shape:', predicted.shape, predicted[:, :, 0].shape
+    np.savetxt('predicted_%d-step.csv' % step, predicted[:, -test_len:, 0],
+               delimiter=',', fmt='%.8f')
     #denormalization   
     prediction = (predicted[:,:, 0] * (max_data - min_data) + (max_data + min_data))/2
+    print 'prediction shape:', prediction.shape
+    np.savetxt('prediction_%d-step.csv' % step, prediction[:, -test_len:],
+               delimiter=',', fmt='%.8f')
 
     error = np.sum((prediction[:,-test_len:] - gt_test[:,-test_len:])**2) / (test_len* prediction.shape[0])
     print 'The mean square error is: %f' % error
