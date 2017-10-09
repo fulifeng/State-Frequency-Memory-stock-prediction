@@ -34,6 +34,7 @@ if __name__=='__main__':
     data_file = args.data_file
     X_train, y_train, X_val, y_val, X_test, y_test, gt_test, max_data, min_data = build.load_data(data_file, step)
     test_len = X_test.shape[1]-X_val.shape[1]
+    print 'test length:', test_len
 
     print '> Data Loaded. Compiling...'
     #dimension of hidden states
@@ -63,12 +64,12 @@ if __name__=='__main__':
     print '> Predicting... '
     predicted = model.predict(X_test)
     print 'predicted result shape:', predicted.shape, predicted[:, :, 0].shape
-    np.savetxt('predicted_%d-step.csv' % step, predicted[:, -test_len:, 0],
+    np.savetxt('predicted_%d-step.csv' % step, predicted[:, :, 0],
                delimiter=',', fmt='%.8f')
     #denormalization   
     prediction = (predicted[:,:, 0] * (max_data - min_data) + (max_data + min_data))/2
     print 'prediction shape:', prediction.shape
-    np.savetxt('prediction_%d-step.csv' % step, prediction[:, -test_len:],
+    np.savetxt('prediction_%d-step.csv' % step, prediction[:, :],
                delimiter=',', fmt='%.8f')
 
     error = np.sum((prediction[:,-test_len:] - gt_test[:,-test_len:])**2) / (test_len* prediction.shape[0])
