@@ -5,6 +5,7 @@ import os
 
 directory = 'price_long_50'
 filenames = os.listdir(directory)
+filenames.sort()
 print(filenames)
 
 all_data = np.zeros((len(filenames),2518),dtype = np.float32)
